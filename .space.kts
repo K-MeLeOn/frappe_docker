@@ -1,8 +1,9 @@
 job("Build and push Docker") {
+    requirements {
+      workerType = WorkerTypes.SPACE_CLOUD_UBUNTU_LTS_LARGE
+    }
+
     host("Build and push the Docker image") {
-        requirements {
-          workerType = WorkerTypes.SPACE_CLOUD_UBUNTU_LTS_LARGE
-        }
         shellScript {
             content = """
                 # Install latest docker (https://www.docker.com/blog/multi-arch-build-what-about-travis)
