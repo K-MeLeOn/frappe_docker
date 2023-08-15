@@ -6,7 +6,7 @@ job("Build and push Docker") {
           	platform = "linux/arm64"
             // path to Dockerfile relative to project root
             // if 'file' is not specified, Docker will look for it in 'context'/Dockerfile
-            file = "image/production/ContainerfileCustom"
+            file = "images/production/ContainerfileCustom"
           	labels["vendor"] = "frappe"
           	labels["arch"] = "arm64"
 
