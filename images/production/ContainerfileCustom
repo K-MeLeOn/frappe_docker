@@ -27,6 +27,7 @@ RUN useradd -ms /bin/bash frappe \
     wait-for-it \
     python3-pip \
     jq \
+    supervisor \
     && mkdir -p ${NVM_DIR} \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
     && . ${NVM_DIR}/nvm.sh \
@@ -34,6 +35,7 @@ RUN useradd -ms /bin/bash frappe \
     && nvm use v${NODE_VERSION} \
     && npm install -g yarn \
     && nvm alias default v${NODE_VERSION} \
+    && npx browserslist@latest --update-db
     && rm -rf ${NVM_DIR}/.cache \
     && echo 'export NVM_DIR="/home/frappe/.nvm"' >>/home/frappe/.bashrc \
     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >>/home/frappe/.bashrc \
