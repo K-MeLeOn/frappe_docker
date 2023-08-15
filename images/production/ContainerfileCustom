@@ -35,7 +35,6 @@ RUN useradd -ms /bin/bash frappe \
     && nvm use v${NODE_VERSION} \
     && npm install -g yarn \
     && nvm alias default v${NODE_VERSION} \
-    && npx browserslist@latest --update-db \
     && rm -rf ${NVM_DIR}/.cache \
     && echo 'export NVM_DIR="/home/frappe/.nvm"' >>/home/frappe/.bashrc \
     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >>/home/frappe/.bashrc \
@@ -99,6 +98,7 @@ RUN bench init \
   --verbose \
   /home/frappe/frappe-bench && \
   cd /home/frappe/frappe-bench && \
+  npx browserslist@latest --update-db && \
   bench get-app --branch=${ERPNEXT_BRANCH} --resolve-deps erpnext ${ERPNEXT_REPO} && \
   echo "{}" > sites/common_site_config.json && \
   find apps -mindepth 1 -path "*/.git" | xargs rm -fr
