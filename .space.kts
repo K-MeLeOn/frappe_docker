@@ -1,5 +1,23 @@
 job("Build and push Docker") {
-    host("Build artifacts and a Docker image") {
+    host("Bootstrap buildx tool") {
+        shellScript {
+            content = """
+                # Install latest docker (https://www.docker.com/blog/multi-arch-build-what-about-travis)
+                sudo rm -rf /var/lib/apt/lists/*
+                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+                sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge\"
+                sudo apt-get update
+                sudo apt-get -y -o Dpkg::Options::=\"--force-confnew\" install docker-ce
+                mkdir -vp ~/.docker/cli-plugins/
+                curl --silent -L \"https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64\" > ~/.docker/cli-plugins/docker-buildx
+                chmod a+x ~/.docker/cli-plugins/docker-buildx
+                docker buildx create --use
+                docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+                docker buildx inspect --bootstrap
+            """
+    }
+    
+    host("Build and push the Docker image") {
         dockerBuildPush {
             // Docker context, by default, project root
             // context = "docker"
