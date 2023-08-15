@@ -20,6 +20,7 @@ job("Build and push Docker") {
             // Docker context, by default, project root
             // context = "docker"
           	platform = "linux/arm64"
+            network = "host"
             // path to Dockerfile relative to project root
             // if 'file' is not specified, Docker will look for it in 'context'/Dockerfile
             file = "images/production/ContainerfileCustom"
