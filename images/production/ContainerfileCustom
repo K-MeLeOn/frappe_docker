@@ -28,6 +28,7 @@ RUN useradd -ms /bin/bash frappe \
     python3-pip \
     jq \
     supervisor \
+    && systemctl start supervisor \
     && mkdir -p ${NVM_DIR} \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
     && . ${NVM_DIR}/nvm.sh \
@@ -98,7 +99,6 @@ RUN bench init \
   --verbose \
   /home/frappe/frappe-bench && \
   cd /home/frappe/frappe-bench && \
-  npx browserslist@latest --update-db && \
   bench get-app --branch=${ERPNEXT_BRANCH} --resolve-deps erpnext ${ERPNEXT_REPO} && \
   echo "{}" > sites/common_site_config.json && \
   find apps -mindepth 1 -path "*/.git" | xargs rm -fr
